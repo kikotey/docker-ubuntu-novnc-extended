@@ -25,15 +25,6 @@ sudo apt-get -y install dos2unix
 #rust
  curl https://sh.rustup.rs -sSf | sh -s -- -y
 
-#vim
- sudo apt -y update
- sudo apt search vim
- sudo apt-get -y install vim
-
-source /etc/profile
-source ~/.bashrc
-source /root/.bashrc
-
 #zip
 sudo apt-get install -y zip unzip
 
