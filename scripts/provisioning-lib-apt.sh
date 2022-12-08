@@ -33,7 +33,6 @@ sudo apt-get -y install dos2unix
  node -v 
  npm -v 
  git --version
- go version
 
 #zip
 sudo apt install -y zip
