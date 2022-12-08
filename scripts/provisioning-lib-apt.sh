@@ -26,19 +26,19 @@ sudo apt-get -y install dos2unix
  curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 #vim
+ sudo apt -y update
  sudo apt search vim
  sudo apt -y install vim
 
- vim --version
- node -v 
- npm -v 
- git --version
+source /etc/profile
+source ~/.bashrc
+source /root/.bashrc
 
 #zip
-sudo apt install -y zip
+sudo apt install -y zip unzip
 
 #pip3
- sudo apt update
+ sudo apt -y update
  sudo apt install -y python3-pip
  pip3 --version
 
