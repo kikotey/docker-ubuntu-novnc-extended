@@ -24,7 +24,6 @@ sudo apt-get -y install dos2unix
 
 #rust
  curl https://sh.rustup.rs -sSf | sh -s -- -y
- source $HOME/.cargo/env
 
 #vim
  sudo apt search vim
