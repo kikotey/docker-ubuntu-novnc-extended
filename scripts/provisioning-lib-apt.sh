@@ -13,14 +13,14 @@ source /root/.bashrc
 sudo apt-get -y install dos2unix
 
 #git
- sudo apt -y install git
+ sudo apt-get -y install git
 
 #curl
- sudo apt -y install -y curl
+ sudo apt-get -y install -y curl
 
 #node
  curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
- sudo apt -y install -y nodejs
+ sudo apt-get -y install -y nodejs
 
 #rust
  curl https://sh.rustup.rs -sSf | sh -s -- -y
@@ -28,18 +28,18 @@ sudo apt-get -y install dos2unix
 #vim
  sudo apt -y update
  sudo apt search vim
- sudo apt -y install vim
+ sudo apt-get -y install vim
 
 source /etc/profile
 source ~/.bashrc
 source /root/.bashrc
 
 #zip
-sudo apt install -y zip unzip
+sudo apt-get install -y zip unzip
 
 #pip3
  sudo apt -y update
- sudo apt install -y python3-pip
+ sudo apt-get install -y python3-pip
  pip3 --version
 
 #yarn
@@ -53,7 +53,7 @@ sudo apt install -y zip unzip
 # terraform
  wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
- sudo apt update && sudo apt -y install terraform
+ sudo apt update && sudo apt-get -y install terraform
 
 # ansible from pip3
  pip3 install --upgrade pip; \
