@@ -1,3 +1,5 @@
+#/bin/bash
+
 echo Y | sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 sudo apt-get install -y powerline fonts-powerline
 sudo apt-get install -y language-pack-en

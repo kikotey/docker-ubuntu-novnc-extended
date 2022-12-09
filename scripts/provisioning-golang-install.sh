@@ -14,6 +14,6 @@ source ~/.bashrc
 source /root/.bashrc
 
 export GOPATH=/go
-export GOROOT=~/startup/go
+export GOROOT=/home/scripts/go
 
  go version
