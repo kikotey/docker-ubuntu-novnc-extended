@@ -12,5 +12,3 @@
 source /etc/profile
 source ~/.bashrc
 source /root/.bashrc
-
- expo --version

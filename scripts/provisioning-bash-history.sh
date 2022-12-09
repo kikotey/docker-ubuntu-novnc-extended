@@ -15,6 +15,3 @@ export HISTSIZE = 1000
 export HISTFILESIZE = 10000
 # On ignore les commandes ls et cd de l'historique
 export HISTIGNORE="ls*:cd*"
-
-chsh -s /bin/zsh
-chsh -s /usr/bin/zsh
