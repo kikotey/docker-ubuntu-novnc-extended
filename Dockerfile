@@ -9,8 +9,10 @@ RUN apt update \
     && apt install -y python3-pip \
     && pip3 --version
 
-RUN pip3 install -r requirements.txt
-RUN mv requirements.txt /usr/local/lib/web/backend/requirements.txt
+COPY requirements.txt /usr/local/lib/web/backend/requirements.txt
+COPY xvfb.sh /usr/local/bin/xvfb.sh
+
+RUN pip3 install -r /usr/local/lib/web/backend/requirements.txt
 RUN chmod u+x /home/scripts/main-provisioning* \
     && chmod u+x /home/scripts/provisioning*
 
