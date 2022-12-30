@@ -14,7 +14,8 @@ COPY xvfb.sh /usr/local/bin/xvfb.sh
 
 RUN pip3 install -r /usr/local/lib/web/backend/requirements.txt
 RUN chmod u+x /home/scripts/main-provisioning* \
-    && chmod u+x /home/scripts/provisioning*
+    && chmod u+x /home/scripts/provisioning* \
+    && chmod u+x /usr/local/bin/xvfb.sh
 
 EXPOSE 80
 WORKDIR /root
