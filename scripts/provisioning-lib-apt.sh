@@ -26,7 +26,7 @@ sudo apt-get -y install dos2unix
  curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 #zip
-sudo apt-get install -y zip unzip
+ sudo apt-get install -y zip unzip
 
 #pip3
  sudo apt -y update
@@ -36,3 +36,15 @@ sudo apt-get install -y zip unzip
 #yarn
  echo y | npm install --global yarn
  yarn --version
+
+#telnet
+ sudo apt-get -y update 
+ sudo apt-get install -y telnet
+
+#fuser
+ sudo apt-get install -y psmisc
+
+#netstat
+ sudo apt -y update
+ sudo apt install -y net-tools
+
