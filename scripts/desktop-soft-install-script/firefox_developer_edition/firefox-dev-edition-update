@@ -1,0 +1,199 @@
+#!/bin/bash
+set -e
+
+# Installation of this script:
+#   Delete one of the url variables below, or get another from
+#   https://www.mozilla.org/firefox/all/#product-desktop-developer
+#   by selecting your language and platform, then copying the link on the
+#   Download button.
+#   
+url='https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US'
+url='https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-GB'
+#
+#   Then run:
+#     sudo install firefox-dev-edition-update /usr/local/sbin/
+#
+# Desktop integration:
+#   Save the accompanying .desktop file or adapt from
+#   /usr/share/applications/firefox.desktop
+#   into
+#   /usr/share/applications/firefoxDevEdition.desktop
+#   or ~/.local/share/applications/firefoxDevEdition.desktop
+#
+#   Save/merge the policies.json file into
+#   /etc/firefox/policies/policies.json
+#   to prevent Firefox from trying to update itself.
+#
+#   Change your default browser application.
+
+
+dir=/opt
+subdir=firefox-dev-edition
+bin="$dir/$subdir/firefox"
+arcglob='firefox-*.tar.*'
+arcre='\S+?(?=\.tar\.)'
+notifylabel='Firefox dev edn. update check'
+
+help=0
+delete=0
+check=0
+graphical=0
+install=0
+existing=0
+while getopts ':hcgdie' opt; do
+	case $opt in
+		h)
+			help=1
+			;;
+		c)
+			check=1
+			;;
+		g)
+			graphical=1
+			;;
+		d)
+			delete=1
+			;;
+		i)
+			install=1
+			;;
+		e)
+			existing=1
+			;;
+		\?)
+			>&2 echo "Unknown option $OPTARG."
+			help=1
+			;;
+	esac
+done
+if ! (( help + delete + check + install )); then
+	help=1
+fi
+
+if (( help )); then
+	>&2 cat <<-EOT
+		${0##*/} [ -h | -c [ -g ] | -i [ -d ] [ -e ] | -d [ -e ] ]
+
+		Options:
+		  -h  This help.
+		  -c  Check for an updated version.
+		  -g  Make check graphical (requires notify-send).
+		  -i  Download and update/install, overwriting any previous install.
+		  -d  Delete existing backup & archive files from previous attempts.
+		      If combined with -ie, leaves the installation archive intact.
+		  -e  Install/keep an existing downloaded archive.
+		EOT
+	exit
+fi
+
+if (( check )); then
+	vremote=$(wget --max-redirect=0 --method=HEAD --server-response "$url" 2>&1 > /dev/null | \
+		grep -Pio '^\s+Location:.*/\D+\K'"$arcre" || true)
+	err=0
+	if [[ -z "$vremote" ]]; then
+		msg='Could not check remote version.'
+		err=1
+	else
+		if [[ -f "$bin" ]]; then
+			vlocal=$("$bin" -v | grep -Po '^\D*\K\S+' || true)
+			if [[ -z "$vlocal" ]]; then
+				msg='Could not check local version.'
+				err=1
+			elif [[ "$vlocal" == "$vremote" ]]; then
+				if ! (( graphical )); then
+					>&2 echo Up to date.
+				fi
+				exit
+			else
+				msg="Installed: $vlocal"
+			fi
+		else
+			msg='Not installed locally.'
+		fi
+		msg="Remote: $vremote"$'\n'"$msg"
+	fi
+	if (( graphical )); then
+		notify-send --icon=update-medium -u critical -t 0 "$notifylabel" "$msg"
+	else
+		>&2 cat <<<"$msg"
+		if (( err )); then
+			exit 1
+		fi
+	fi
+	exit
+fi
+
+cd "$dir"
+
+function readarcs {
+	arcs=()
+	readarray -t arcs < <(compgen -G "$arcglob" | sort -rV)
+}
+
+readarcs
+if (( delete )); then
+	>&2 echo -n 'Cleaning... '
+	if [[ -d "$subdir~/" ]] && ! rm -r "$subdir~/"; then
+		>&2 echo "Could not remove backup dir $dir/$subdir~/"
+		exit 1
+	fi
+	keep=0
+	if (( existing )); then
+		if [[ "${#arcs[@]}" -le 1 ]]; then
+			keep=1
+		else
+			n=0
+			for arc in "${arcs[@]}"; do
+				n=$(( n + 1 ))
+				>&2 echo "$n: $arc "`stat -c'%s' "$arc"`b
+			done
+			while ! (( keep )); do
+				read -r -p 'Select archive to keep for installation: ' keep
+				if ! [[ "$keep" =~ ^[1-9][0-9]*$ ]] || (( keep > n )); then
+					>&2 echo Invalid selection. Ctrl + C to terminate.
+					keep=0
+				fi
+			done
+		fi
+	fi
+	n=0
+	for arc in "${arcs[@]}"; do
+		n=$(( n + 1 ))
+		if [[ $keep -ne $n ]] && ! rm "$arc"; then
+			>&2 echo "Could not remove archive $dir/$arc"
+			exit 1
+		fi
+	done
+elif (( install )); then
+	if [[ -d "$subdir~/" ]] || [[ "${#arcs[@]}" -ge 2 ]] || { ! (( existing )) && [[ "${#arcs[@]}" -gt 0 ]]; }; then
+		>&2 echo Delete files from previous install by adding the -d option.
+		exit 1;
+	fi
+fi
+
+if (( install )); then
+	if ! (( existing )); then
+		>&2 echo -n 'Downloading... '
+		if ! wget -q --trust-server-names "$url"; then
+			>&2 echo Failed.
+			exit 1;
+		fi
+	fi
+	readarcs
+	if [[ "${#arcs[@]}" -ne 1 ]]; then
+		>&2 echo No recognised installation archive.
+		exit 1;
+	fi
+	arc="${arcs[0]}"
+	>&2 echo -n 'Installing... '
+	if { ! [[ -d "$subdir/" ]] || mv "$subdir/" "$subdir~/" ; } && \
+		tar --no-same-owner -xf "$arc" --transform='s,^[^/]\+,'"$subdir,"
+	then
+		>&2 echo Done.
+	else
+		>&2 echo Failed.
+		exit 1;
+	fi
+elif (( delete )); then
+	>&2 echo Done.
+fi
