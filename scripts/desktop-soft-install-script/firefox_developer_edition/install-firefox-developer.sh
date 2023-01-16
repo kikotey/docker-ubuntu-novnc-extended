@@ -1,6 +1,5 @@
 #!/bin/bash
 
-sudo apt-get -y purge firefox
 sudo rm -Rf /root/.mozilla/
 sudo rm /etc/firefox/
 sudo rm -Rf /etc/firefox/
