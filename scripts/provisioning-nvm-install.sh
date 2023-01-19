@@ -1,7 +1,7 @@
 #!/bin/bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-cat nvm_bash >> ~/.bash_profile
-cat nvm_bash >> ~/.zshrc
+cat nvm_bashrc >> ~/.bash_profile
+cat nvm_bashtc >> ~/.zshrc
 source ~/.bashrc
 #nvm ls-remote
 nvm list
