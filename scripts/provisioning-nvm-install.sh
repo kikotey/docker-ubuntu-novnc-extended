@@ -5,7 +5,15 @@ cat nvm-bashrc >> ~/.zshrc
 source ~/.bashrc
 #nvm ls-remote
 nvm list
-nvm install v14.21.2
-nvm install v16.19.0
-nvm use v14.21.2
+
+if [[ $(nvm list | grep v14.21.2) == "" ]]; then
+  nvm install v14.21.2
+else
+  nvm use v14.21.2
+fi
+
+if [[ $(nvm ls | grep v16.19.0) == "" ]]; then
+  nvm install v16.19.0
+fi
+
 node --version
