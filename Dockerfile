@@ -5,9 +5,9 @@ LABEL maintainer="jack.crosnierdebellaistre@kikotey.com"
 COPY /scripts /home/scripts
 COPY /startup /home/startup
 
-RUN apt update \
-    && apt install -y python3-pip \
-    && pip3 --version
+RUN apt update -y 
+RUN apt install -y python3-pip
+RUN pip3 --version
 
 COPY requirements.txt /usr/local/lib/web/backend/requirements.txt
 COPY xvfb.sh /usr/local/bin/xvfb.sh
