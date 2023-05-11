@@ -5,7 +5,7 @@ LABEL maintainer="jack.crosnierdebellaistre@kikotey.com"
 COPY /scripts /home/scripts
 COPY /startup /home/startup
 
-RUN apt update -y 
+RUN apt update
 RUN apt install -y python3-pip
 RUN pip3 --version
 
