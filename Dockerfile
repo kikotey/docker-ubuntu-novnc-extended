@@ -5,6 +5,8 @@ LABEL maintainer="jack.crosnierdebellaistre@kikotey.com"
 COPY /scripts /home/scripts
 COPY /startup /home/startup
 
+RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak && sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
+
 RUN apt update
 RUN apt install -y python3-pip
 RUN pip3 --version
