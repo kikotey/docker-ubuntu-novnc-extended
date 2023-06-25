@@ -28,6 +28,8 @@ export PATH=$ANDROID_HOME/platform-tools/:$PATH
 source $HOME/.bash_profile
 source $HOME/.bashrc
 
+npm i -g @kikotey/kikotey-startup-service-cli
+
 
 sdkmanager --install "platform-tools" "emulator"
 sdkmanager --install "platform-tools" "build-tools;33.0.0"

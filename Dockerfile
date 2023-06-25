@@ -5,7 +5,25 @@ LABEL maintainer="jack.crosnierdebellaistre@kikotey.com"
 COPY /scripts /home/scripts
 COPY /startup /home/startup
 
-RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak && sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
+RUN mkdir -p ~/solution
+RUN cd ~/solution/
+
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse" >> ~/solution/sources.list
+RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse" >> ~/solution/sources.list
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse" >> ~/solution/sources.list
+RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse" >> ~/solution/sources.list
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse" >> ~/solution/sources.list
+RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse" >> ~/solution/sources.list
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse" >> ~/solution/sources.list
+RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse " >> ~/solution/sources.list
+RUN echo "deb http://archive.canonical.com/ubuntu focal partner" >> ~/solution/sources.list
+RUN echo "deb-src http://archive.canonical.com/ubuntu focal partner" >> ~/solution/sources.list
+
+RUN sudo sed -i "s/focal/$(lsb_release -c -s)/" ~/solution/sources.list
+RUN sudo rm /etc/apt/sources.list
+RUN sudo cp ~/solution/sources.list /etc/apt/sources.list
+
+RUN sudo mv /etc/apt/sources.list.d/* ~/solution
 
 RUN apt-get update
 RUN apt-get install -y python3-pip

@@ -12,6 +12,19 @@ source /root/.bashrc
 #dos2unix
 sudo apt-get -y install dos2unix
 
+#jq
+sudo apt-get install -y jq
+
+#awk
+sudo apt-get install -y awk
+
+#nslookup
+sudo apt-cache search nslookup
+sudo apt-get install -y dnsutils
+
+#ping
+sudo apt-get install -y iputils-ping
+
 #git
  sudo apt-get -y install git
 
