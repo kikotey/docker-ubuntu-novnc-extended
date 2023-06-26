@@ -31,9 +31,9 @@ source $HOME/.bashrc
 npm i -g @kikotey/kikotey-startup-service-cli
 
 
-sdkmanager --install "platform-tools" "emulator"
-sdkmanager --install "platform-tools" "build-tools;33.0.0"
-sdkmanager --install "platform-tools" "platforms;android-33"
+echo yes | sdkmanager --sdk_root=$ANDROID_HOME --install "platform-tools" "emulator"
+echo yes | sdkmanager --sdk_root=$ANDROID_HOME --install "platform-tools" "build-tools;33.0.0"
+echo yes | sdkmanager --sdk_root=$ANDROID_HOME --install "platform-tools" "platforms;android-33"
 
 yarn global add react-devtools
 
