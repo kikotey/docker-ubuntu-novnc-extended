@@ -8,4 +8,4 @@
   echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo apt-get -y update
   sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-  sudo docker --host tcp://127.0.0.1:2375 run hello-world
+# sudo docker --host tcp://127.0.0.1:2375 run hello-world
