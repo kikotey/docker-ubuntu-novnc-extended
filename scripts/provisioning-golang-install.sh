@@ -2,7 +2,7 @@
 [[ -f ~/.bashrc ]] || touch ~/.bashrc
 
 wget https://go.dev/dl/go1.19.3.linux-amd64.tar.gz
-tar -xzf go1.19.3.linux-amd64.tar.gz -C .
+cat go1.19.3.linux-amd64.tar.gz | tar xzf -
 cp  go/bin/go /bin/go
 echo "export PATH=$PATH:~/go/bin" >> /etc/profile
 echo "export GOPATH=/go" >> ~/.bashrc
@@ -16,4 +16,4 @@ source /root/.bashrc
 export GOPATH=/go
 export GOROOT=/home/scripts/go
 
-#go version
+go version
