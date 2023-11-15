@@ -2,6 +2,8 @@
 pub_file="/home/ubuntu/.ssh/id_rsa.pub"
 dest="/root/.ssh"
 src="/home/ubuntu/.ssh"
+mkdir -p $dest
+mkdir -p $src
 if [ ! -f $pub_file ]
 then
     echo "ssh files does not exist in ~/.ssh"
